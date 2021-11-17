@@ -14,7 +14,7 @@
   var quixote = require("../../vendor/quixote.js");
 
   // Define a test suite using Mocha's standard `define` function.
-  describe("Assignment-4", function () {
+  describe.only("Assignment-4", function () {
     // Variables used by our tests. They're populated in the `before()` and `beforeEach()` functions.
     var frame; // The Quixote test frame.
     var container, frameDom; // The figure element inside the media object. (The icon.)
@@ -64,9 +64,16 @@
     it("container should have header for page", function () {
       assert.isTrue(isExist(header_ele));
     });
-    it("header navigation should have three list items", function () {
+    it("container should have logo image for page", function () {
       assert.isTrue(
-          frame.toDomElement().contentDocument.querySelectorAll("header nav ul")[0].childElementCount=== 3
+        isExist(
+          frame.toDomElement().contentDocument.getElementsByTagName("img")
+        )
+      );
+    });
+    it("input should have name attribute", function () {
+      assert.isTrue(
+        frameDom.getElementsByTagName("input")[0].hasAttribute("name")
       );
     });
     it("container should have nav bar for page", function () {
@@ -76,26 +83,33 @@
         )
       );
     });
-   
-    it("Page should have three article tags with class name- 'three-col'", function () {
-      assert.isTrue(
-        frame.toDomElement().contentDocument.getElementsByClassName("three-col")
-          .length === 3
-      );
+    it("Page should have two aside tags", function () {
+      assert.isTrue(frameDom.getElementsByTagName("aside").length === 2);
     });
-
-    it("Page should have section with id='hero'", function () {
+    it("Page should have un-ordered list with id='right-sidebar-menu'", function () {
       assert.isTrue(
         !!frame
           .toDomElement()
-          .contentDocument.getElementById("hero")
+          .contentDocument.getElementById("right-sidebar-menu")
       );
     });
-    it("container should have footer for page", function () {
+    it("Page should have footer tag with id='page-footer'", function () {
       assert.isTrue(
-        isExist(
-          frame.toDomElement().contentDocument.getElementsByTagName("footer")
-        )
+        !!frame.toDomElement().contentDocument.getElementById("page-footer")
+      );
+    });
+    it("Page should have section tag with id='main-content-section'", function () {
+      assert.isTrue(
+        !!frame
+          .toDomElement()
+          .contentDocument.getElementById("main-content-section")
+      );
+    });
+
+    it("Page should have six image tags with class='post-img'", function () {
+      assert.isTrue(
+        frame.toDomElement().contentDocument.getElementsByClassName("post-img")
+          .length === 6
       );
     });
   });
